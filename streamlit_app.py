@@ -207,7 +207,7 @@ THEME = dict(
 # ─────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv("APL_Logistics.csv", encoding="latin1")
+    df = pd.read_csv("compressed_data.csv.gz",compression="gzip", encoding="latin1")
     df["Delay_Gap"] = df["Days for shipping (real)"] - df["Days for shipment (scheduled)"]
     df["Delivery_Class"] = df["Delay_Gap"].apply(
         lambda x: "Early" if x < 0 else ("On-Time" if x == 0 else "Delayed")
@@ -218,7 +218,7 @@ def load_data():
 try:
     df = load_data()
 except FileNotFoundError:
-    st.error("⚠️ Place `APL_Logistics.csv` in the same folder as this script.")
+    st.error("⚠️ Place `compressed_data.csv.gz` in the same folder as this script.")
     st.stop()
 
 # ─────────────────────────────────────────
